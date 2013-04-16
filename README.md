@@ -1,4 +1,4 @@
-exchange_cookbook
-=================
+exchange_cookbooks
+==================
 
-OpenStax Exchange Chef Cookbook
+OpenStax Exchange Chef Cookbooks
