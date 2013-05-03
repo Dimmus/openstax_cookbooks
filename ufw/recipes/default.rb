@@ -46,6 +46,8 @@ else
     action :allow
   end
 
+  Chef::Log.debug "node['firewall']['rules']: #{node['firewall']['rules'].inspect}" 
+
   node['firewall']['rules'].each do |rule_mash|
     Chef::Log.debug "ufw:rule \"#{rule_mash}\""
     rule_mash.keys.each do |rule|
