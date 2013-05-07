@@ -1,44 +1,5 @@
 {
-  "emacs": {
-    "packages": ["emacs23-nox"]
-  },
-  "rbenv": { 
-    "rubies": ["1.9.3-p392"],
-    "global": "1.9.3-p392",
-    "gems": {
-      "1.9.3-p392": [
-        { "name": "chef" }
-      ]
-    }
-  },
-  // "openssh": {
-  //   "server": {
-  //     "password_authentication": "yes",
-  //     "permit_root_login": "no",
-  //     "subsystem": "sftp internal-sftp"
-  //   }
-  // },
-  "authorization": {
-    "sudo": {
-      "passwordless": true,
-      "include_sudoers_d": true
-    }
-  },
   "run_list": [
-    "recipe[apt]",
-    "recipe[build-essential]",
-        "recipe[ufw]",
-    "recipe[firewall]",
-
-    "recipe[nginx]",
-    "recipe[openstax_exchange::web_server]",
-
-
-    "recipe[emacs]",
-    // "recipe[openssh]", // disallow root access and password auth
-    // "recipe[ufw::recipes]",
-    // "recipe[rbenv::system_install]",
-    "recipe[ruby_build]",
-    "recipe[rbenv::system]"
+    "recipe[openstax_exchange::web_server]"
   ]
 }

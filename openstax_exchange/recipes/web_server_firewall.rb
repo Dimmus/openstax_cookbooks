@@ -20,6 +20,12 @@ firewall_rule "https" do
   action :allow
 end
 
+if (node[:instance_role] == "vagrant")
+  firewall_rule "vagrant" do
+    port 3000
+  end
+end
+
 firewall "ufw" do
   action :nothing
 end
