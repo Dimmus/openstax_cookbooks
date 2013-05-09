@@ -1,7 +1,19 @@
 Chef::Log.info("Starting: openstax_commons::rails_web_server_setup")
 Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 
+# Define the following attributes to pin the version of Ruby installed
+# by Amazon's recipes.  This content should go into custom JSON on opsworks
+node.normal[:opsworks][:ruby_version] = '1.9.3'
+node.normal[:ruby][:major_version] = '1.9'
+node.normal[:ruby][:full_version] = '1.9.3'
+node.normal[:ruby][:patch] = 'p392'
+node.normal[:ruby][:pkgrelease] = '1'
+
 include_recipe "apt"
+
+package "libyaml-dev" do 
+  action :install
+end
 
 if (node[:instance_role] == 'vagrant')
   include_recipe "aws::opsworks_custom_layer_setup"
@@ -13,17 +25,21 @@ include_recipe "firewall"
 node.normal["emacs"]["packages"] = ["emacs23-nox"]
 
 include_recipe "emacs"
-include_recipe "ruby_build"
 
-node.normal["rbenv"] = {
-  "rubies" => ["1.9.3-p392"],
-  "global" => "1.9.3-p392",
-  "install_pkgs" => []
-}
-
-include_recipe "rbenv::system"
-
-node.normal[:dependencies][:gem_binary] = 'gem'
+# The following code does work to install rbenv and rubies through it,
+# however, it is much faster to use AWS's packaged binaries to get this 
+# done.
+#
+# node.normal["rbenv"] = {
+#   "rubies" => ["1.9.3-p392"],
+#   "global" => "1.9.3-p392",
+#   "install_pkgs" => []
+# }
+#
+# include_recipe "ruby_build"
+# include_recipe "rbenv::system"
+#
+# node.normal[:dependencies][:gem_binary] = 'gem'
 
 required_packages = [
   # sqlite3 needed by rails to precompile assets (needed by JS runtimes)
