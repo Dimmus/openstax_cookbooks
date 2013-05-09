@@ -1,9 +1,14 @@
+firewall "ufw" do
+  action :nothing
+end
+
+
 # open standard ssh port, enable firewall
 firewall_rule "ssh" do
   port 22
   protocol :tcp
   action :allow
-  notifies :enable, "firewall[ufw]"
+  notifies :enable, resources(:firewall => 'ufw') #"firewall[ufw]"
 end
 
 # open standard http port to tcp traffic only; insert as first rule
@@ -24,10 +29,6 @@ if (node[:instance_role] == "vagrant")
   firewall_rule "vagrant" do
     port 3000
   end
-end
-
-firewall "ufw" do
-  action :nothing
 end
 
 execute "limit ssh retries" do
