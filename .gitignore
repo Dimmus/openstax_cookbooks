@@ -1,0 +1,2 @@
+# Ignore OS X's Desktop Service Store files
+*.DS_Store

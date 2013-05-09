@@ -1,13 +1,29 @@
 
-node.normal["opsworks"]["ruby_stack"] = 'ruby'
 node.normal["ebs"]["raids"]["blank?"] = true
 node.normal["opsworks"]["instance"]["layers"] = "custom"
 
+node.normal["opsworks"]["ruby_stack"] = 'ruby'
+node.normal[:opsworks][:ruby_version] = '1.9.3'
+node.normal[:ruby][:major_version] = '1.9'
+node.normal[:ruby][:full_version] = '1.9.3'
+node.normal[:ruby][:patch] = 'p392'
+node.normal[:ruby][:pkgrelease] = '1'
 
+Chef::Log.info("Purging NTP, Adding OpenNTP")
 
-package "ntp" do
+package "ntpd" do
   action :purge
 end
+
+package "openntpd" do
+  action :purge
+end
+
+package "apparmor-utils" do
+  action :install
+end
+
+execute "aa-complain `which ntpd`"
 
 service "apparmor" do
   action :restart
@@ -16,8 +32,6 @@ end
 package "openntpd" do
   action :install
 end
-
-# include_recipe "apt"
 
 include_recipe "opsworks_initial_setup"
 
