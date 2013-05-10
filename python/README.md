@@ -1,6 +1,8 @@
 Description
 ===========
 
+(this version from https://github.com/crowdmob/chef-python works for AWS's old chef version)
+
 Installs and configures Python.  Also includes LWRPs for managing python packages with `pip` and `virtualenv` isolated Python environments.
 
 Requirements
