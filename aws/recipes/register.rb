@@ -5,8 +5,8 @@ Chef::Log.info("Will connect node (#{node[:opsworks][:instance][:aws_instance_id
 
 execute "register" do
   command "aws --region #{node[:opsworks][:instance][:region]} \
-               elb register-instances-from-load-balancer \
+               elb register-instances-with-load-balancer \
                --load-balancer-name #{node[:aws][:load_balancer_name]} \
-               --instances '{\"instance_id\":\"#{node[:opsworks][:instance][:aws_instance_id]}\"}'"
+               --instances '[{\"instance_id\":\"#{node[:opsworks][:instance][:aws_instance_id]}\"}]'"
   user "#{node[:aws][:execute_user]}"
 end
