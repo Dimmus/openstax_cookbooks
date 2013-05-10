@@ -1,0 +1,1 @@
+include_recipe "openstax_common::rails_web_server_deploy"
