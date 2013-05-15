@@ -1,0 +1,8 @@
+actions :create
+default_action :create
+
+# Validations copied here from File and Template resources so that
+# stacktraces properly inform the user where the validation occurred
+
+attribute :command_name, :kind_of => String, :name_attribute => true, :required => true
+attribute :run_list, :kind_of => String
