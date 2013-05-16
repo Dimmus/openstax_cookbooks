@@ -6,16 +6,17 @@ Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 
 include_recipe "openstax_common::rails_web_server_setup"
 
-if (node[:instance_role] == 'vagrant')
-  node.normal["aws"]["use_cli_mockup"] = true
-  node.normal["aws"]["execute_user"] = 'vagrant'
-end
+# if (node[:instance_role] == 'vagrant')
+#   node.normal["aws"]["use_cli_mockup"] = true
+#   node.normal["aws"]["execute_user"] = 'vagrant'
+# end
 
-node.normal["aws"]["load_balancer_name"] = 'exchange'
-include_recipe 'aws::register'
+# node.normal["aws"]["load_balancer_name"] = 'exchange'
+# include_recipe 'aws::register'
 
 
 openstax_common_solo_file 'deploy' do
+  command_name 'deploy'
   run_list 'openstax_exchange::rails_web_server_deploy'
 end
 

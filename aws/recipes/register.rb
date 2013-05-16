@@ -1,4 +1,4 @@
-include_recipe "aws"
+include_recipe "aws::cli"
 
 Chef::Log.info("Will connect node (#{node[:opsworks][:instance][:aws_instance_id]}) to " + 
                "load balancer '#{node[:aws][:load_balancer_name]}' in region '#{node[:opsworks][:instance][:region]}'")

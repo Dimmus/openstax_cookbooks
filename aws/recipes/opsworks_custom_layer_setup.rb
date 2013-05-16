@@ -1,10 +1,13 @@
 
-node.normal["ebs"]["raids"]["blank?"] = true
-node.normal["opsworks"]["instance"]["layers"] = "custom"
-node.normal["opsworks"]["ruby_stack"] = 'ruby'
+# node.normal["ebs"]["raids"]["blank?"] = true
+# node.normal["opsworks"]["instance"]["layers"] = "custom"
+# node.normal["opsworks"]["ruby_stack"] = 'ruby'
 
 # Get around some weird OpenNTP/NTP conflicts and issues
 include_recipe "aws::openntpd_over_ntpd"
+
+# Install aws cli
+include_recipe "aws::cli"
 
 include_recipe "opsworks_initial_setup"
 

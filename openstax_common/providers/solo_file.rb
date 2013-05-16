@@ -20,7 +20,7 @@ action :create do
     source "solo_file_json.erb"
     mode '0744'
     variables({
-      run_list: run_list
+      :run_list => run_list
     })    
   end
 
@@ -29,8 +29,8 @@ action :create do
     source "solo_file.erb"
     mode '0744'
     variables({
-      cookbook_path: ::File.expand_path(::File.join(::File.dirname(__FILE__), '../..')),
-      json_file_name: json_file_name
+      :cookbook_path => ::File.expand_path(::File.join(::File.dirname(__FILE__), '../..')),
+      :json_file_name => json_file_name
     })
   end
 
@@ -39,7 +39,7 @@ action :create do
     source "chef_solo_file_command.erb"
     mode '0777'
     variables({
-      command_name: command_name
+      :command_name => command_name
     })
   end
 end
