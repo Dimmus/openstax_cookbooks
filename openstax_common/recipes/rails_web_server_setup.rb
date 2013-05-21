@@ -17,6 +17,9 @@ end
 
 if (node[:instance_role] == 'vagrant')
   include_recipe "aws::opsworks_custom_layer_setup"
+  execute 'ln -sf /opt/vagrant_ruby/bin/chef-solo /usr/local/sbin/chef-solo' do
+    action :run
+  end
 end
 
 # Standardize what /usr/bin/ruby points to (esp useful for unicorn scripts)
@@ -51,7 +54,10 @@ required_packages = [
   "sqlite3", 
   "libsqlite3-dev",
   # To use passwords in user_account blocks
-  "libshadow-ruby1.8"
+  "libshadow-ruby1.8",
+  "libxml2",
+  "libxml2-dev",
+  "libxslt-dev"
 ]
 
 required_packages.each do |required_package|

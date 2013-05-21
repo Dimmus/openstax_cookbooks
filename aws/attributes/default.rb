@@ -7,4 +7,5 @@ node.normal["ebs"]["raids"]["blank?"] = true
 node.normal["opsworks"]["instance"]["layers"] = "custom"
 node.normal["opsworks"]["ruby_stack"] = 'ruby'
 node.normal["opsworks"]["rails_stack"]["name"] = 'nginx_unicorn'
+node.normal["opsworks"]["rails_stack"]["recipe"] = 'unicorn::rails'
 # node.normal["opsworks"]["rails"]["ignore_bundler_groups"] = "development test"

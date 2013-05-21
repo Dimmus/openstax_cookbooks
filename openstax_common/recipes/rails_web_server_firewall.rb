@@ -28,6 +28,8 @@ end
 if (node[:instance_role] == "vagrant")
   firewall_rule "vagrant" do
     port 3000
+    protocol :tcp
+    action :allow
   end
 end
 

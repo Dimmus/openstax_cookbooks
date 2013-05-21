@@ -3,6 +3,7 @@ action :create do
 
   command_name = @new_resource.command_name
   run_list = @new_resource.run_list
+  other_json = @new_resource.other_json
   solo_file_dir_name = "/var/lib/chef/configs/"
   json_file_name = "#{solo_file_dir_name}#{command_name}_solo.json"
   solo_file_name = "#{solo_file_dir_name}#{command_name}_solo.rb"
@@ -20,7 +21,8 @@ action :create do
     source "solo_file_json.erb"
     mode '0744'
     variables({
-      :run_list => run_list
+      :run_list => run_list,
+      :other_json => other_json
     })    
   end
 

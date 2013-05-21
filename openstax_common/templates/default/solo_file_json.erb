@@ -1,4 +1,5 @@
 {
   "instance_role": "vagrant",
-  "run_list": "<%= @run_list %>"
+  "run_list": "<%= @run_list %>",
+  "deploy": <%= JSON.pretty_generate(@other_json, {:indent => '    '}) %>
 }

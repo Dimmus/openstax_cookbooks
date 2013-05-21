@@ -6,3 +6,4 @@ default_action :create
 
 attribute :command_name, :kind_of => String, :required => true
 attribute :run_list, :kind_of => String
+attribute :other_json, :kind_of => Hash
