@@ -7,6 +7,39 @@ Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 include_recipe "openstax_common::rails_web_server_setup"
 
 if (node[:instance_role] == 'vagrant')
+
+
+node['mysql']['client']['packages'].each do |mysql_pack|
+  resources("package[#{mysql_pack}]").run_action(:install)
+end
+  # %w(mysql-client libmysqlclient-dev).each do |mysql_pack|
+  #   resources("package[#{mysql_pack}]").run_action(:install)
+  # end
+  include_recipe "build-essential"
+  chef_gem "mysql"
+
+  mysql_connection_info = {:host => "localhost", :username => 'root', :password => 'password'}
+
+  mysql_database 'production' do
+    connection mysql_connection_info
+    action :create
+  end
+
+  mysql_database_user 'production_user' do
+    connection mysql_connection_info
+    password 'password'
+    action :create
+  end
+
+  mysql_database_user 'production_user' do
+    connection mysql_connection_info
+    database_name 'production'
+    privileges [:all]
+    action :grant
+  end
+end
+
+if (node[:instance_role] == 'vagrant')
   openstax_common_solo_file 'deploy' do
     command_name 'deploy'
     run_list 'openstax_exchange::rails_web_server_deploy'

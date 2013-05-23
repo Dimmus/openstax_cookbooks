@@ -11,15 +11,39 @@ Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 
 include_recipe "apt"
 
+# Since some recipes can actually bump their execution up to Chef compile time
+# make sure the build tools do the same and run at compile time
+node.normal['build_essential']['compiletime'] = true
+
 package "libyaml-dev" do 
   action :install
 end
 
 if (node[:instance_role] == 'vagrant')
+
+  # node["mysql"]["version"] = 5.1
+  # node['mysql']['server_root_password'] = 'password'
+  # node['mysql']['server_repl_password'] = 'password'
+  # node['mysql']['server_debian_password'] = 'password'
+  # include_recipe "mysql::server"
+
   include_recipe "aws::opsworks_custom_layer_setup"
+  # include_recipe "apparmor"
+  
   execute 'ln -sf /opt/vagrant_ruby/bin/chef-solo /usr/local/sbin/chef-solo' do
     action :run
   end
+
+  execute 'install mysql-server manually because cookbook fails unexplainedly' do
+    command <<-cmd
+      echo mysql-server mysql-server/root_password password password | sudo debconf-set-selections;
+      echo mysql-server mysql-server/root_password_again password password | sudo debconf-set-selections;
+      apt-get -y install mysql-server
+    cmd
+    action :run
+  end
+
+  
 end
 
 # Standardize what /usr/bin/ruby points to (esp useful for unicorn scripts)
