@@ -1,14 +1,6 @@
 Chef::Log.info("Starting: openstax_commons::rails_web_server_setup")
 Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 
-# # Define the following attributes to pin the version of Ruby installed
-# # by Amazon's recipes.  This content should go into custom JSON on opsworks
-# node.normal[:opsworks][:ruby_version] = '1.9.3'
-# node.normal[:ruby][:major_version] = '1.9'
-# node.normal[:ruby][:full_version] = '1.9.3'
-# node.normal[:ruby][:patch] = 'p392'
-# node.normal[:ruby][:pkgrelease] = '1'
-
 include_recipe "apt"
 
 # Since some recipes can actually bump their execution up to Chef compile time
@@ -20,20 +12,13 @@ package "libyaml-dev" do
 end
 
 if (node[:instance_role] == 'vagrant')
-
-  # node["mysql"]["version"] = 5.1
-  # node['mysql']['server_root_password'] = 'password'
-  # node['mysql']['server_repl_password'] = 'password'
-  # node['mysql']['server_debian_password'] = 'password'
-  # include_recipe "mysql::server"
-
   include_recipe "aws::opsworks_custom_layer_setup"
-  # include_recipe "apparmor"
   
   execute 'ln -sf /opt/vagrant_ruby/bin/chef-solo /usr/local/sbin/chef-solo' do
     action :run
   end
 
+  # We need mysql server in our development environment only
   execute 'install mysql-server manually because cookbook fails unexplainedly' do
     command <<-cmd
       echo mysql-server mysql-server/root_password password password | sudo debconf-set-selections;
@@ -42,8 +27,6 @@ if (node[:instance_role] == 'vagrant')
     cmd
     action :run
   end
-
-  
 end
 
 # Standardize what /usr/bin/ruby points to (esp useful for unicorn scripts)
@@ -53,9 +36,6 @@ end
 
 include_recipe "build-essential"
 include_recipe "firewall"
-
-# node.normal["emacs"]["packages"] = ["emacs23-nox"]
-
 include_recipe "emacs"
 
 # The following code does work to install rbenv and rubies through it,
@@ -89,9 +69,6 @@ required_packages.each do |required_package|
     action [:upgrade]
   end
 end
-
-# # Gets rid of an apache2 cookbook dependency from unicorn::rails
-# node.normal["opsworks"]["skip_uninstall_of_other_rails_stack"] = true
 
 include_recipe "unicorn::rails"
 include_recipe "openstax_common::rails_web_server_firewall"
