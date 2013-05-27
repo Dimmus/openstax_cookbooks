@@ -9,3 +9,9 @@ node.normal["emacs"]["packages"] = ["emacs23-nox"]
 # Gets rid of an apache2 cookbook dependency from unicorn::rails
 node.normal["opsworks"]["skip_uninstall_of_other_rails_stack"] = true
 node.normal["dependencies"]["update_debs"] = true
+node.default["generate_and_configure_ssl"] = true
+
+if (node[:instance_role] == 'vagrant')
+  node.default["opsworks"]["stack"]["name"] = "Unnamed Stack"
+  node.default["opsworks"]["agent_version"] = 104
+end
