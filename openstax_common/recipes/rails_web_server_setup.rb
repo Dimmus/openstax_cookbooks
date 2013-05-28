@@ -70,7 +70,13 @@ required_packages.each do |required_package|
   end
 end
 
-include_recipe "unicorn::rails"
+# Note that instead of including the unicorn::rails recipe, we include a modified
+# version of it that for sure doesn't do any deployment stuff (we have to include
+# the :deploy json in every AWS run whereas OpsWorks can include it only for the 
+# deploy stage -- the rails_prep verion of the recipe just excludes any chance that
+# that :deploy json will have unwanted side effects)
+include_recipe "unicorn::rails_prep"
+
 include_recipe "openstax_common::rails_web_server_firewall"
 
 Chef::Log.info("Finished openstax_commons::rails_web_server_setup")

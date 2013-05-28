@@ -6,12 +6,15 @@ end
 node.normal[:opsworks][:instance][:layers] = [node[:opsworks][:instance][:layers]].flatten.push('rails-app')
 
 node[:deploy].each do |application, deploy|
-  directory "#{deploy[:deploy_to]}/shared/cached-copy" do
-    group deploy[:group]
-    owner deploy[:user]
-    mode 0770
-    action :create
-    recursive true
+
+  ["#{deploy[:deploy_to]}/shared/cached-copy", "#{deploy[:deploy_to]}/shared/config"].each do |dirname|
+    directory dirname do
+      group deploy[:group]
+      owner deploy[:user]
+      mode 0770
+      action :create
+      recursive true
+    end
   end
 
   template "#{deploy[:deploy_to]}/shared/config/secret_settings.yml" do
@@ -20,10 +23,6 @@ node[:deploy].each do |application, deploy|
     variables(
       :secret_settings => deploy[:secret_settings]
     )
-
-    only_if do
-      File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
-    end
   end
 
   if (node[:generate_and_configure_ssl])
