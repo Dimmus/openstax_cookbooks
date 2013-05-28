@@ -16,6 +16,18 @@ node[:deploy].each do |application, deploy|
     recursive true
   end
 
+  template "#{deploy[:deploy_to]}/shared/config/secret_settings.yml" do
+    source 'secret_settings.yml.erb'
+    mode '0660'
+    variables(
+      :secret_settings => deploy[:secret_settings]
+    )
+
+    only_if do
+      File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
+    end
+  end
+
   if (node[:generate_and_configure_ssl])
     ssl_directory = "#{node[:nginx][:dir]}/ssl"
     directory ssl_directory do
@@ -54,13 +66,13 @@ end
 include_recipe "deploy::rails"
 
 node[:deploy].each do |application, deploy|
-  template "#{deploy[:current_path]}/config/secret_settings.yml" do
-    source 'secret_settings.yml.erb'
-    mode '0777'
-    variables(
-      :secret_settings => deploy[:secret_settings]
-    )
-  end
+  # template "#{deploy[:current_path]}/config/secret_settings.yml" do
+  #   source 'secret_settings.yml.erb'
+  #   mode '0777'
+  #   variables(
+  #     :secret_settings => deploy[:secret_settings]
+  #   )
+  # end
 
   # execute "restart Rails app #{application}" do
   #   cwd deploy[:current_path]
@@ -69,5 +81,5 @@ node[:deploy].each do |application, deploy|
   # end
 end
 
-include_recipe "deploy::rails-restart"
+# include_recipe "deploy::rails-restart"
 
