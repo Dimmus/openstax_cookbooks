@@ -1,3 +1,8 @@
+if (node[:instance_role] == 'vagrant')
+  node.normal["aws"]["use_cli_mockup"] = true
+  node.normal["aws"]["execute_user"] = 'vagrant'
+end
+
 # Define the following attributes to pin the version of Ruby installed
 # by Amazon's recipes.  This content should go into custom JSON on opsworks
 node.normal[:opsworks][:ruby_version] = '1.9.3'
@@ -10,7 +15,6 @@ node.normal["emacs"]["packages"] = ["emacs23-nox"]
 node.normal["opsworks"]["skip_uninstall_of_other_rails_stack"] = true
 node.normal["dependencies"]["update_debs"] = true
 node.default["generate_and_configure_ssl"] = true
-# node.normal[:opsworks][:rails_stack][:restart_command] = '../shared/scripts/unicorn clean-restart'
 
 if (node[:instance_role] == 'vagrant')
   node.default["opsworks"]["stack"]["name"] = "Unnamed Stack"

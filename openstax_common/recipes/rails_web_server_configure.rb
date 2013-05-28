@@ -24,6 +24,4 @@ node[:deploy].each do |application, deploy|
   node.default[:deploy][application][:memcached][:port] = 11211
 end
 
-Chef::Log.info("restart command ***: #{node[:opsworks][:rails_stack][:restart_command]}")
-
 include_recipe "rails::configure"

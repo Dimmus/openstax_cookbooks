@@ -2,7 +2,6 @@ firewall "ufw" do
   action :nothing
 end
 
-
 # open standard ssh port, enable firewall
 firewall_rule "ssh" do
   port 22
