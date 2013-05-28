@@ -1,5 +1,5 @@
 actions :create
-default_action :create
+default_action :create if defined?(default_action)
 
 # Validations copied here from File and Template resources so that
 # stacktraces properly inform the user where the validation occurred
