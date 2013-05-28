@@ -10,6 +10,7 @@ node.normal["emacs"]["packages"] = ["emacs23-nox"]
 node.normal["opsworks"]["skip_uninstall_of_other_rails_stack"] = true
 node.normal["dependencies"]["update_debs"] = true
 node.default["generate_and_configure_ssl"] = true
+# node.normal[:opsworks][:rails_stack][:restart_command] = '../shared/scripts/unicorn clean-restart'
 
 if (node[:instance_role] == 'vagrant')
   node.default["opsworks"]["stack"]["name"] = "Unnamed Stack"

@@ -61,4 +61,13 @@ node[:deploy].each do |application, deploy|
       :secret_settings => deploy[:secret_settings]
     )
   end
+
+  # execute "restart Rails app #{application}" do
+  #   cwd deploy[:current_path]
+  #   command node[:opsworks][:rails_stack][:restart_command]
+  #   action :run
+  # end
 end
+
+include_recipe "deploy::rails-restart"
+
