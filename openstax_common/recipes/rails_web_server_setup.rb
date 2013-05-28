@@ -29,6 +29,9 @@ if (node[:instance_role] == 'vagrant')
   end
 end
 
+include_recipe "aws"
+include_recipe "aws::cli"
+
 # Standardize what /usr/bin/ruby points to (esp useful for unicorn scripts)
 execute 'ln -sf `which ruby` /usr/bin/ruby' do
   action :run
