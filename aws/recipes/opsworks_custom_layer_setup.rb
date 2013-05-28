@@ -1,5 +1,5 @@
 
-# node.normal["ebs"]["raids"]["blank?"] = true
+node.normal["ebs"]["raids"]["blank?"] = true
 # node.normal["opsworks"]["instance"]["layers"] = "custom"
 # node.normal["opsworks"]["ruby_stack"] = 'ruby'
 
