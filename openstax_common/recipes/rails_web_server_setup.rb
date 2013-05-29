@@ -64,7 +64,7 @@ required_packages = [
   "libshadow-ruby1.8",
   "libxml2",
   "libxml2-dev",
-  "libxslt-dev"
+  "libxslt1-dev"
 ]
 
 required_packages.each do |required_package|
