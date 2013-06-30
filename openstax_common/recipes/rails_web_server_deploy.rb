@@ -25,6 +25,15 @@ node[:deploy].each do |application, deploy|
     )
   end
 
+  template "#{deploy[:deploy_to]}/shared/config/database_ssl.yml" do
+    cookbook 'openstax_common'
+    source 'database_ssl.yml.erb'
+    mode '0660'
+    variables(
+      :database => deploy[:database]
+    )
+  end
+
   if (node[:generate_and_configure_ssl])
     ssl_directory = "#{node[:nginx][:dir]}/ssl"
     directory ssl_directory do

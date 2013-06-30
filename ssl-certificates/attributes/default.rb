@@ -1,0 +1,5 @@
+default[:ssl_certificates][:options][:path] = '/etc/ssl_certs'
+default[:ssl_certificates][:options][:owner] = 'root'
+default[:ssl_certificates][:options][:group] = 'root'
+default[:ssl_certificates][:options][:path_mode] = '0750'
+default[:ssl_certificates][:options][:file_mode] = '0640'

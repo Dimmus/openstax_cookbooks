@@ -73,6 +73,8 @@ required_packages.each do |required_package|
   end
 end
 
+include_recipe "ssl-certificates::install"
+
 # Note that instead of including the unicorn::rails recipe, we include a modified
 # version of it that for sure doesn't do any deployment stuff (we have to include
 # the :deploy json in every AWS run whereas OpsWorks can include it only for the 

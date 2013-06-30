@@ -1,0 +1,20 @@
+<%
+  ssl_certificates_path = node[:ssl_certificates][:options][:path] || ''
+  ssl_symbols = [:sslca, :sslkey, :sslcert]
+%>
+<% (['production']).uniq.each do |env| -%>
+<%= env %>:
+  adapter: <%= @database[:adapter] %>
+  database: <%= @database[:database] %>
+  encoding: utf8
+  host: <%= @database[:host] || 'localhost' %>
+  username: <%= @database[:username] %>
+  password: <%= @database[:password] %>
+  reconnect: <%= @database[:reconnect] ? 'true' : 'false' %>
+<% ssl_symbols.each do |ssl_symbol| -%>
+  <%= "#{ssl_symbol.to_s}: \"#{ssl_certificates_path}/#{@database[ssl_symbol]}\"" if @database[ssl_symbol] %>
+<% end -%>
+<% if ssl_symbols.any?{|ssl_symbol| !@database[ssl_symbol].nil?} -%>
+  sslcipher: 'DHE-RSA-AES256-SHA:AES128-SHA'
+<% end -%> 
+<% end -%>
