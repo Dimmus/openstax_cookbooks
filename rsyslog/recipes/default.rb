@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+service node['rsyslog']['service_name'] do
+  supports :restart => true, :reload => true, :status => true
+  action [:enable, :start]
+end
+
+
 package "rsyslog" do
   action :install
 end
@@ -35,14 +41,16 @@ template "/etc/rsyslog.conf" do
   source 'rsyslog.conf.erb'
   mode 0644
   variables(:protocol => node['rsyslog']['protocol'])
-  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, resources(:service => "#{node['rsyslog']['service_name']}")
+  # notifies :restart, "service[#{node['rsyslog']['service_name']}]"
 end
 
 template "/etc/rsyslog.d/50-default.conf" do
   source "50-default.conf.erb"
   backup false
   mode 0644
-  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, resources(:service => "#{node['rsyslog']['service_name']}")
+  # notifies :restart, "service[#{node['rsyslog']['service_name']}]"
 end
 
 # Can't do the below due to AWS ancient Chef
@@ -53,7 +61,3 @@ end
 #   end
 # end
 
-service node['rsyslog']['service_name'] do
-  supports :restart => true, :reload => true, :status => true
-  action [:enable, :start]
-end
