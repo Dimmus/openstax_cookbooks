@@ -29,6 +29,14 @@ if (node[:instance_role] == 'vagrant')
   end
 end
 
+node[:deploy].each do |application, deploy|
+  node.normal[:papertrail][:watch_files]["#{deploy[:deploy_to]}/shared/log/production.log"] = 'rails'
+  node.normal[:papertrail][:watch_files]["#{deploy[:deploy_to]}/shared/log/unicorn.stderr.log"] = 'unicorn.stderr'
+  node.normal[:papertrail][:watch_files]["#{deploy[:deploy_to]}/shared/log/unicorn.stdout.log"] = 'unicorn.stdout'
+end
+
+include_recipe "papertrail-cookbook"
+
 include_recipe "aws"
 include_recipe "aws::cli"
 
