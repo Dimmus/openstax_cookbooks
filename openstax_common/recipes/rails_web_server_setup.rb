@@ -37,6 +37,8 @@ end
 
 include_recipe "papertrail-cookbook"
 
+include_recipe "fail2ban"
+
 include_recipe "aws"
 include_recipe "aws::cli"
 
