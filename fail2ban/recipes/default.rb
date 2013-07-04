@@ -20,13 +20,18 @@ package "fail2ban" do
   action :upgrade
 end
 
+service "fail2ban" do
+  supports [ :status => true, :restart => true ]
+  action [ :enable, :start ]
+end
+
 %w{ fail2ban jail }.each do |cfg|
   template "/etc/fail2ban/#{cfg}.conf" do
     source "#{cfg}.conf.erb"
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => fail2ban)
+    notifies :restart, resources(:service => 'fail2ban')
   end
 end
 
@@ -36,11 +41,6 @@ end
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => fail2ban)
+    notifies :restart, resources(:service => 'fail2ban')
   end
-end
-
-service "fail2ban" do
-  supports [ :status => true, :restart => true ]
-  action [ :enable, :start ]
 end
