@@ -26,7 +26,7 @@ end
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, "service[fail2ban]"
+    notifies :restart, resources(:service => fail2ban)
   end
 end
 
@@ -36,7 +36,7 @@ end
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, "service[fail2ban]"
+    notifies :restart, resources(:service => fail2ban)
   end
 end
 
