@@ -42,6 +42,8 @@ include_recipe "fail2ban"
 include_recipe "aws"
 include_recipe "aws::cli"
 
+include_recipe "newrelic"
+
 # Standardize what /usr/bin/ruby points to (esp useful for unicorn scripts)
 execute 'ln -sf `which ruby` /usr/bin/ruby' do
   action :run
