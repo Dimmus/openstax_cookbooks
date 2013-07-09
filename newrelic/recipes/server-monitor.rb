@@ -12,7 +12,7 @@ end
 
 service "newrelic-sysmond" do
     supports :status => true, :start => true, :stop => true, :restart => true
-    action [:enable, :start] #starts the service if it's not running and enables it to start at system boot time
+    action :nothing
 end
 
 #configure your New Relic license key
@@ -35,4 +35,8 @@ template "/etc/newrelic/nrsysmond.cfg" do
     )
     notifies :restart, resources(:service => 'newrelic-sysmond')
     # notifies :restart, "service[newrelic-sysmond]"
+end
+
+service "newrelic-sysmond" do
+    action [:enable, :start] #starts the service if it's not running and enables it to start at system boot time
 end
