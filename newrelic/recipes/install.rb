@@ -16,7 +16,7 @@ case node[:platform]
 
         #update the local package list
         execute "newrelic-apt-get-update" do
-            command "apt-get update; apt-get install newrelic-sysmond"
+            command "apt-get update"
             action :nothing
         end
 
