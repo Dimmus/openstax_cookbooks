@@ -10,6 +10,11 @@ package "newrelic-sysmond" do
     action :install
 end
 
+service "newrelic-sysmond" do
+    supports :status => true, :start => true, :stop => true, :restart => true
+    action [:enable, :start] #starts the service if it's not running and enables it to start at system boot time
+end
+
 #configure your New Relic license key
 template "/etc/newrelic/nrsysmond.cfg" do
     source "nrsysmond.cfg.erb"
@@ -28,10 +33,6 @@ template "/etc/newrelic/nrsysmond.cfg" do
         :collector_host => node[:newrelic][:server_monitoring][:collector_host],
         :timeout => node[:newrelic][:server_monitoring][:timeout]
     )
-    notifies :restart, "service[newrelic-sysmond]"
-end
-
-service "newrelic-sysmond" do
-    supports :status => true, :start => true, :stop => true, :restart => true
-    action [:enable, :start] #starts the service if it's not running and enables it to start at system boot time
+    notifies :restart, resources(:service => 'newrelic-sysmond')
+    # notifies :restart, "service[newrelic-sysmond]"
 end
