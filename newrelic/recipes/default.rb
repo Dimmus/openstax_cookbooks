@@ -8,7 +8,7 @@
 if node['newrelic']
 	include_recipe "newrelic::install"
 
-	if node['newrelic']['server_monitoring'] && node['newrelic']['server_monitoring']['license']
+	if !node['newrelic']['server_monitoring'].blank? && !node['newrelic']['server_monitoring']['license'].blank?
 		include_recipe "newrelic::server-monitor"
 	end
 end
