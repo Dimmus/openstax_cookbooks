@@ -1,4 +1,4 @@
-Chef::Log.info("Starting openstax_exchange::rails_web_server_setup")
+Chef::Log.info("Starting openstax_accounts::rails_web_server_setup")
 Chef::Log.info("node[:instance_role] == #{node[:instance_role]}")
 
 # This delegates off to the common version of rails web server setup.
@@ -34,5 +34,5 @@ if (node[:instance_role] == 'vagrant')
   end
 end
 
-Chef::Log.info("Finished openstax_exchange::rails_web_server_setup")
+Chef::Log.info("Finished openstax_accounts::rails_web_server_setup")
 
