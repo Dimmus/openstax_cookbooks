@@ -1,4 +1,4 @@
-name             'openstaxt_cookbooks'
+name             'openstax_cookbooks'
 maintainer       'Rice University'
 maintainer_email 'jps@kindlinglabs.com'
 license          'MIT License'
