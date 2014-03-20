@@ -2,9 +2,6 @@ if (node[:instance_role] == 'vagrant')
   include_recipe "aws::opsworks_custom_layer_deploy"
 end
 
-# Some opsworks code needs to think this is a rails-app layer
-node.normal[:opsworks][:instance][:layers] = [node[:opsworks][:instance][:layers]].flatten.push('rails-app')
-
 node[:deploy].each do |application, deploy|
 
   ["#{deploy[:deploy_to]}/shared/cached-copy", "#{deploy[:deploy_to]}/shared/config"].each do |dirname|
