@@ -16,6 +16,9 @@ node.normal["opsworks"]["skip_uninstall_of_other_rails_stack"] = true
 node.normal["dependencies"]["update_debs"] = true
 node.default["generate_and_configure_ssl"] = true
 
+# Install and manage bundler
+node.normal["opsworks_bundler"]["manage_package"] = true
+
 if (node[:instance_role] == 'vagrant')
   node.default["opsworks"]["stack"]["name"] = "Unnamed Stack"
   node.default["opsworks"]["agent_version"] = 104
